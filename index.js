@@ -19,7 +19,7 @@ exports.handler = function (event, context) {
             let text = body.events[0].message.text;
             const message = {
                 'type': 'text',
-                'text': event.source.userId
+                'text': body.events[0].source.userId
             };
             client.replyMessage(body.events[0].replyToken, message)
                 .then((response) => {
