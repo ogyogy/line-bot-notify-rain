@@ -21,7 +21,7 @@ exports.handler = function (event, context) {
                 'type': 'text',
                 'text': event.source.userId
             };
-            client.pushMessage(body.events[0].replyToken, message)
+            client.replyMessage(body.events[0].replyToken, message)
                 .then((response) => {
                     let lambdaResponse = {
                         statusCode: 200,
