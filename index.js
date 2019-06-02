@@ -8,7 +8,7 @@ exports.handler = function (event, context) {
     let checkHeader = (event.headers || {})['X-Line-Signature'];
     let body = JSON.parse(event.body);
     if (signature === checkHeader) {
-        if (body.events[0].replyToken === '00000000000000000000000000000000') { //接続確認エラー回避
+        if (body.events[0].replyToken === '00000000000000000000000000000000') {
             let lambdaResponse = {
                 statusCode: 200,
                 headers: { "X-Line-Status": "OK" },
@@ -21,7 +21,7 @@ exports.handler = function (event, context) {
                 'type': 'text',
                 'text': body.events[0].source.userId
             };
-            client.replyMessage(body.events[0].replyToken, message)
+            client.pushMessage(process.env.USERID, message)
                 .then((response) => {
                     let lambdaResponse = {
                         statusCode: 200,
