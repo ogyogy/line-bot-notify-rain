@@ -1,1 +1,23 @@
 # line-bot-notify-rain
+## About
+
+指定されたスケジュールに基づきプッシュ通知するBot
+
+## Setup
+
+### CodePipelineの設定
+
+[AWS CodePipeline を使用して Lambda アプリケーションの継続的な配信パイプラインを構築する - AWS Lambda](https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/build-pipeline.html)
+
+### CloudWatch イベントで実行するスケジュールの指定
+
+[ルールのスケジュール式 - Amazon CloudWatch Events](https://docs.aws.amazon.com/ja_jp/AmazonCloudWatch/latest/events/ScheduledEvents.html)
+
+### Lambda 環境変数の設定
+
+[AWS Lambda 環境変数 - AWS Lambda](https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/env_variables.html)
+
+```
+ACCESSTOKEN=<Your Access Token>
+USERID=<Your User ID>
+```
