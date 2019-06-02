@@ -21,3 +21,13 @@
 ACCESSTOKEN=<Your Access Token>
 USERID=<Your User ID>
 ```
+
+### ローカル環境でテスト
+
+```sh
+npm init
+npm install @line/bot-sdk
+npm install request
+npm install xml2js
+node localtest.js
+```
