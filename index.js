@@ -35,6 +35,45 @@ function getWeatherEmoji(weather) {
     return emoji;
 }
 
+function pushError(err) {
+    client.pushMessage(process.env.USERID, {
+        'type': 'text',
+        'text': err.toString()
+    });
+}
+
+function pushWeather(res) {
+    try {
+        let text = '';
+        let today = res.weatherforecast.pref[0].area[0].info[0]
+        // let date = today.$.date;
+        let weather = today.weather[0];
+        text += getWeatherEmoji(weather);
+        let max_chance_rain = 0;
+        // let max_chance_rain_hour = null;
+        let periods = today.rainfallchance[0].period;
+        let chance_rain_str = '';
+        periods.forEach(function (value) {
+            // let hour = value.$.hour;
+            let chance_rain = Number(value._);
+            if (max_chance_rain < chance_rain) {
+                max_chance_rain = chance_rain;
+                // max_chance_rain_hour = hour;
+            }
+            chance_rain_str += value._ + '%/';
+        });
+        chance_rain_str = chance_rain_str.replace(/\/$/, '');
+        text += ' ' + chance_rain_str;
+        const message = {
+            'type': 'text',
+            'text': text
+        };
+        client.pushMessage(process.env.USERID, message);
+    } catch (err) {
+        pushError(err);
+    }
+}
+
 exports.handler = function (event, context) {
     // 天気情報を Japan Weather Forecast xml から取得
     // https://www.drk7.jp/weather/
@@ -42,37 +81,10 @@ exports.handler = function (event, context) {
         url: 'https://www.drk7.jp/weather/xml/14.xml',
     }, function (error, response, body) {
         xml2js.parseString(body.toString(), (err, res) => {
-            try {
-                let text = '';
-                let today = res.weatherforecast.pref[0].area[0].info[0]
-                // let date = today.$.date;
-                let weather = today.weather[0];
-                text += getWeatherEmoji(weather);
-                let max_chance_rain = 0;
-                // let max_chance_rain_hour = null;
-                let periods = today.rainfallchance[0].period;
-                let chance_rain_str = '';
-                periods.forEach(function (value) {
-                    // let hour = value.$.hour;
-                    let chance_rain = Number(value._);
-                    if (max_chance_rain < chance_rain) {
-                        max_chance_rain = chance_rain;
-                        // max_chance_rain_hour = hour;
-                    }
-                    chance_rain_str += value._ + '%/';
-                });
-                chance_rain_str = chance_rain_str.replace(/\/$/, '');
-                text += ' ' + chance_rain_str;
-                const message = {
-                    'type': 'text',
-                    'text': text
-                };
-                client.pushMessage(process.env.USERID, message);
-            } catch (err) {
-                client.pushMessage(process.env.USERID, {
-                    'type': 'text',
-                    'text': err.toString()
-                });
+            if (err) {
+                pushError(err);
+            } else {
+                pushWeather(res);
             }
         });
     });
