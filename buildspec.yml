@@ -5,6 +5,8 @@ phases:
       nodejs: 10
     commands:
       - npm install @line/bot-sdk
+      - npm install request
+      - npm install xml2js
       - export BUCKET=$BUCKET_NAME
       - aws cloudformation package --template-file template.yaml --s3-bucket $BUCKET --output-template-file outputtemplate.yaml
 artifacts:
