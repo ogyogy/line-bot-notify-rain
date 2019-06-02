@@ -3,6 +3,10 @@
 
 指定されたスケジュールに基づきプッシュ通知するBot
 
+```
+<天気> <降水確率 00-06時>/<降水確率 06-12時>/<降水確率 12-18時>/<降水確率 18-24時>
+```
+
 ## Setup
 
 ### CodePipelineの設定
@@ -20,4 +24,14 @@
 ```
 ACCESSTOKEN=<Your Access Token>
 USERID=<Your User ID>
+```
+
+### ローカル環境でテスト
+
+```sh
+npm init
+npm install @line/bot-sdk
+npm install request
+npm install xml2js
+node localtest.js
 ```
