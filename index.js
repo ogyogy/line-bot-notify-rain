@@ -45,7 +45,7 @@ function pushError(err) {
 function pushWeather(res) {
     try {
         let text = '';
-        let today = res.weatherforecast.pref[0].area[0].info[0]
+        let today = res.weatherforecast.pref[0].area[3].info[0]
         // let date = today.$.date;
         let weather = today.weather[0];
         text += getWeatherEmoji(weather);
@@ -78,7 +78,7 @@ exports.handler = function (event, context) {
     // 天気情報を Japan Weather Forecast xml から取得
     // https://www.drk7.jp/weather/
     request.get({
-        url: 'https://www.drk7.jp/weather/xml/14.xml',
+        url: 'https://www.drk7.jp/weather/xml/13.xml',
     }, function (error, response, body) {
         xml2js.parseString(body.toString(), (err, res) => {
             if (err) {
